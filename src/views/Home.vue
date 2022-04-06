@@ -1,10 +1,11 @@
 <template>
   <div class="home">
-    <ul>
-      <li v-for="item in knjiga" v-bind:key="item.sha">
-        Knjiga <router-link :to="'/knjiga/' + item.sha">{{item.url + " , " + item.name + ", " + item.authors }}</router-link>
+    <ol>
+      <li v-for="knjiga in knjiga" :key="knjiga.url">
+      <!--    <router-link :to="'/knjiga/' + knjiga.sha">{{knjiga.url + " , " + knjiga.name + ", " + knjiga.authors }}</router-link> -->
+    <router-link :to="{name:'Knjiga', params: { isbn: knjiga.isbn, url: knjiga.url}}">{{ knjiga.name }} > {{knjiga.authors}}</router-link> 
       </li>
-    </ul>
+    </ol>
     
   </div>
 </template>
@@ -13,25 +14,19 @@
 // @ is an alias to /src
 
 export default {
-  name: 'Home',
-
+  name:'Home',
   data() {
     return {
-        knjiga: [],
+      knjiga: []
     }
   },
+
  async mounted() {
-    
-    
-    let rezultat = await fetch("https://www.anapioficeandfire.com/api/books");
-     
-     let podaci = await rezultat.json()
-    
-    for (let item of podaci) {
-     console.log(item.sha);
-    }
-  this.knjiga = podaci;
-  },
-  
+     let rezultat = await fetch("https://www.anapioficeandfire.com/api/books")
+     console.log("rezultat")
+     let podatci = await rezultat.json() 
+     this.knjiga = podatci 
+ }
+
 }
 </script>
